@@ -78,6 +78,7 @@ fun SettingsScreen(vm: SettingsViewModel = viewModel(factory = AppViewModels.Fac
     val shareTitle = stringResource(R.string.share_chooser)
     val shareSubject = stringResource(R.string.share_report_subject)
     val exportEmpty = stringResource(R.string.export_empty)
+    val exportFileName = stringResource(R.string.export_file_name)
     val permissionDenied = stringResource(R.string.notif_permission_denied)
 
     LaunchedEffect(vm) {
@@ -163,7 +164,7 @@ fun SettingsScreen(vm: SettingsViewModel = viewModel(factory = AppViewModels.Fac
             Group {
                 SettingRow(Icons.Outlined.FileDownload, stringResource(R.string.export_csv), stringResource(R.string.export_csv_desc), onClick = {
                     if (vm.subscriptionCount == 0) scope.launch { snackbar.showSnackbar(exportEmpty) }
-                    else exportLauncher.launch(context.getString(R.string.export_file_name))
+                    else exportLauncher.launch(exportFileName)
                 })
                 HorizontalDivider()
                 SettingRow(Icons.Outlined.Share, stringResource(R.string.share_report), stringResource(R.string.share_report_desc), onClick = vm::shareReport)

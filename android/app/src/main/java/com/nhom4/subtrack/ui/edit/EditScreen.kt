@@ -5,7 +5,6 @@ package com.nhom4.subtrack.ui.edit
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.provider.CalendarContract
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -65,6 +64,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -72,6 +72,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nhom4.subtrack.R
@@ -102,7 +103,7 @@ fun EditScreen(
     onDone: () -> Unit,
     vm: EditViewModel = viewModel(key = "edit-$subscriptionId", factory = AppViewModels.edit(subscriptionId)),
 ) {
-    val context = LocalContext.current
+    val resources = LocalResources.current
     val snackbar = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     var confirmDelete by remember { mutableStateOf(false) }
@@ -110,7 +111,7 @@ fun EditScreen(
     LaunchedEffect(vm) {
         vm.events.collect { event ->
             when (event) {
-                is EditEvent.Message -> scope.launch { snackbar.showSnackbar(context.getString(event.text)) }
+                is EditEvent.Message -> scope.launch { snackbar.showSnackbar(resources.getString(event.text)) }
                 EditEvent.Done -> onDone()
             }
         }
@@ -427,7 +428,7 @@ private fun addToCalendar(context: Context, f: EditForm) {
 
 private fun openUrl(context: Context, url: String) {
     try {
-        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        context.startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
     } catch (_: ActivityNotFoundException) {
         android.widget.Toast.makeText(context, R.string.no_browser, android.widget.Toast.LENGTH_SHORT).show()
     }

@@ -31,6 +31,12 @@ android {
     buildFeatures {
         compose = true
     }
+    // Ứng dụng luôn hiển thị tiếng Việt nên không tách gói ngôn ngữ khi phát hành AAB
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
 }
 
 dependencies {

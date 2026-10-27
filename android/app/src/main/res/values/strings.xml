@@ -15,8 +15,6 @@
     <string name="action_delete">Xóa</string>
     <string name="action_edit">Sửa</string>
     <string name="action_back">Quay lại</string>
-    <string name="action_close">Đóng</string>
-    <string name="action_add">Thêm</string>
     <string name="action_ok">Đồng ý</string>
     <string name="loading">Đang tải…</string>
     <string name="error_generic">Đã xảy ra lỗi. Vui lòng thử lại.</string>
@@ -59,7 +57,6 @@
     <string name="clear_filters">Xóa bộ lọc</string>
     <string name="add_subscription">Thêm gói đăng ký</string>
     <string name="other_currency_note">Chưa tính %1$d gói dùng tiền tệ khác</string>
-    <string name="upcoming_title">Sắp đến hạn</string>
 
     <!-- Chu kỳ -->
     <string name="cycle_weekly">Hằng tuần</string>

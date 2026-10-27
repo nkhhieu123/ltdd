@@ -1,6 +1,7 @@
 package com.nhom4.subtrack.reminder
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -108,6 +109,7 @@ object Reminders {
     fun notifyTest(context: Context): Boolean =
         post(context, 0, context.getString(R.string.notif_test_title), context.getString(R.string.notif_test_body))
 
+    @SuppressLint("MissingPermission") // đã kiểm tra bằng hasPermission ngay bên dưới
     private fun post(context: Context, id: Int, title: String, body: String): Boolean {
         if (!hasPermission(context)) return false
         val intent = PendingIntent.getActivity(

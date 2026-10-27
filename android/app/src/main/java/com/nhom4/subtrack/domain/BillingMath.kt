@@ -69,19 +69,23 @@ object BillingMath {
      */
     fun parseAmount(input: String, currency: Currency): Double? {
         val raw = input.trim().replace(" ", "")
-        if (raw.isEmpty()) return null
-        val normalized = if (currency == Currency.VND) {
-            raw.replace(".", "").replace(",", "")
-        } else {
-            val lastSep = maxOf(raw.lastIndexOf('.'), raw.lastIndexOf(','))
-            if (lastSep >= 0 && raw.length - lastSep - 1 in 1..2) {
-                raw.substring(0, lastSep).replace(".", "").replace(",", "") + "." + raw.substring(lastSep + 1)
-            } else {
-                raw.replace(".", "").replace(",", "")
-            }
-        }
-        if (!normalized.matches(Regex("""\d+(\.\d{1,2})?"""))) return null
-        return normalized.toDoubleOrNull()
+        if (raw.isEmpty() || !raw.matches(Regex("""[\d.,]+"""))) return null
+        // Dấu cuối cùng theo sau bởi 1–2 chữ số là dấu thập phân (không áp dụng cho VND)
+        val lastSep = maxOf(raw.lastIndexOf('.'), raw.lastIndexOf(','))
+        val hasDecimal = currency != Currency.VND && lastSep >= 0 && raw.length - lastSep - 1 in 1..2
+        val intPart = if (hasDecimal) raw.substring(0, lastSep) else raw
+        val fraction = if (hasDecimal) raw.substring(lastSep + 1) else ""
+        if (!isGroupedInteger(intPart)) return null
+        val digits = intPart.replace(".", "").replace(",", "")
+        return (if (fraction.isEmpty()) digits else "$digits.$fraction").toDoubleOrNull()
+    }
+
+    /** "1234", "1.234", "1,234,567" hợp lệ; "1.2.3" thì không. */
+    private fun isGroupedInteger(s: String): Boolean {
+        if (s.isEmpty()) return false
+        val groups = s.split('.', ',')
+        if (groups.size == 1) return groups[0].all { it.isDigit() }
+        return groups[0].length in 1..3 && groups.drop(1).all { it.length == 3 } && groups.all { g -> g.all { it.isDigit() } }
     }
 
     fun isValidUrl(url: String): Boolean =
