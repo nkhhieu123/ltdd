@@ -66,5 +66,5 @@ Nhãn: **[XM]** = đã xác minh trực tiếp từ nguồn trên · **[SL]** = 
 
 - Giữ **cấu trúc và luồng** đã xác minh: 4 tab, danh sách có báo hiệu gia hạn, form chi tiết, báo cáo 4 mốc + biểu đồ tròn, tag/nền tảng, trạng thái hoạt động, xuất CSV.
 - Dùng **tên và giao diện riêng** (SubTrack, Material 3), không sao chép logo, ảnh hay thương hiệu Sub Radar, đúng như kế hoạch nhóm đã nêu.
-- Thay iCloud bằng lưu trữ cục bộ Room; thay EventKit bằng Intent thêm sự kiện vào ứng dụng Lịch của Android; thông báo cục bộ bằng WorkManager.
+- Thay iCloud bằng lưu trữ cục bộ SQLite (SQLiteOpenHelper + Repository); thay EventKit bằng Intent thêm sự kiện vào ứng dụng Lịch của Android; thông báo cục bộ bằng WorkManager.
 - Tiền tệ mặc định VND, có chọn thêm USD/EUR.
