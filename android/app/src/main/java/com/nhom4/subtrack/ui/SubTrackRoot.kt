@@ -1,7 +1,11 @@
 package com.nhom4.subtrack.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.nhom4.subtrack.SubTrackApp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BarChart
 import androidx.compose.material.icons.outlined.Folder
@@ -43,6 +47,13 @@ private fun editRoute(id: Long) = "edit/$id"
 
 @Composable
 fun SubTrackRoot() {
+    val app = LocalContext.current.applicationContext as SubTrackApp
+    val settings by app.settings.settings.collectAsStateWithLifecycle()
+    if (!settings.onboardingDone) {
+        OnboardingScreen(onStart = app.settings::setOnboardingDone)
+        return
+    }
+
     val nav = rememberNavController()
     val backStack by nav.currentBackStackEntryAsState()
     val currentRoute = backStack?.destination?.route
@@ -70,7 +81,11 @@ fun SubTrackRoot() {
             }
         },
     ) { padding ->
-        NavHost(nav, startDestination = Tab.LIST.route, modifier = Modifier.padding(padding)) {
+        NavHost(
+            nav,
+            startDestination = Tab.LIST.route,
+            modifier = Modifier.padding(padding).consumeWindowInsets(padding),
+        ) {
             composable(Tab.LIST.route) {
                 ListScreen(onOpen = { nav.navigate(editRoute(it)) }, onAdd = { nav.navigate(editRoute(0)) })
             }
