@@ -41,8 +41,13 @@ class ReminderWorker(context: Context, params: WorkerParameters) : CoroutineWork
             val today = LocalDate.now()
             app.repository.subscriptions.value.orEmpty()
                 .filter { shouldRemind(it, today) }
-                .filter { app.settings.markReminded(it.id, it.nextPaymentDate.toEpochDay()) }
-                .forEach { Reminders.notifyDue(applicationContext, it, BillingMath.daysUntil(it.nextPaymentDate, today)) }
+                .filter { !app.settings.wasReminded(it.id, it.nextPaymentDate.toEpochDay()) }
+                .forEach {
+                    // Chỉ đánh dấu đã nhắc khi gửi được; thiếu quyền thì lần kiểm tra sau sẽ thử lại
+                    if (Reminders.notifyDue(applicationContext, it, BillingMath.daysUntil(it.nextPaymentDate, today))) {
+                        app.settings.markReminded(it.id, it.nextPaymentDate.toEpochDay())
+                    }
+                }
             Result.success()
         }.getOrElse { Result.retry() }
     }
@@ -97,13 +102,14 @@ object Reminders {
         Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
             ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
 
-    fun notifyDue(context: Context, sub: Subscription, days: Long) {
+    /** Trả về true nếu thông báo đã được gửi cho hệ thống. */
+    fun notifyDue(context: Context, sub: Subscription, days: Long): Boolean {
         val money = formatMoney(sub.amount, sub.currency)
         val title = if (days == 0L) context.getString(R.string.notif_title_today, sub.name)
         else context.getString(R.string.notif_title, sub.name)
         val body = if (days == 0L) context.getString(R.string.notif_body_today, money)
         else context.resources.getQuantityString(R.plurals.notif_body, days.toInt(), money, days.toInt(), formatDate(sub.nextPaymentDate))
-        post(context, sub.id.toInt(), title, body)
+        return post(context, sub.id.toInt(), title, body)
     }
 
     fun notifyTest(context: Context): Boolean =

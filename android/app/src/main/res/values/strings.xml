@@ -28,7 +28,7 @@
     <string name="onboarding_point_2_body">Gói sắp đến hạn được tô màu và ứng dụng gửi thông báo nhắc trước.</string>
     <string name="onboarding_point_3_title">Biết mình chi bao nhiêu</string>
     <string name="onboarding_point_3_body">Báo cáo chi phí theo tuần, tháng, quý, năm và theo từng danh mục.</string>
-    <string name="onboarding_privacy">Dữ liệu chỉ lưu trên điện thoại của bạn, không cần tài khoản.</string>
+    <string name="onboarding_privacy">Dữ liệu lưu trên điện thoại của bạn, không cần tài khoản.</string>
     <string name="onboarding_start">Bắt đầu</string>
 
     <!-- Danh sách -->

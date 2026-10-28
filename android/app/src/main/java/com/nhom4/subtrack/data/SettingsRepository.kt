@@ -29,12 +29,13 @@ class SettingsRepository(context: Context) {
     fun setRemindersEnabled(enabled: Boolean) = edit { putBoolean(KEY_REMINDERS, enabled) }
     fun setOnboardingDone() = edit { putBoolean(KEY_ONBOARDING, true) }
 
-    /** Đánh dấu đã nhắc gói [subId] cho kỳ thanh toán [epochDay]; trả về false nếu đã nhắc rồi. */
-    fun markReminded(subId: Long, epochDay: Long): Boolean {
-        val key = "reminded_$subId"
-        if (prefs.getLong(key, Long.MIN_VALUE) == epochDay) return false
-        prefs.edit().putLong(key, epochDay).apply()
-        return true
+    /** Gói [subId] đã được nhắc cho kỳ thanh toán [epochDay] chưa. */
+    fun wasReminded(subId: Long, epochDay: Long): Boolean =
+        prefs.getLong("reminded_$subId", Long.MIN_VALUE) == epochDay
+
+    /** Ghi nhận đã gửi nhắc cho kỳ thanh toán [epochDay]; chỉ gọi sau khi gửi thành công. */
+    fun markReminded(subId: Long, epochDay: Long) {
+        prefs.edit().putLong("reminded_$subId", epochDay).apply()
     }
 
     private inline fun edit(block: android.content.SharedPreferences.Editor.() -> Unit) {
