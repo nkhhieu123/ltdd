@@ -1,4 +1,4 @@
-# SubTrack – Ứng dụng quản lý gói đăng ký định kỳ (Android)
+# SubTrack – Subscription Tracker (Android)
 
 Đồ án môn Lập trình thiết bị di động – Nhóm 4. Ứng dụng Android native (Kotlin + Jetpack Compose + Material 3), giao diện 100% tiếng Việt. Ý tưởng và luồng chức năng tham khảo từ Sub Radar (chỉ có trên iOS); tên, giao diện và mã nguồn do nhóm tự xây dựng.
 
@@ -11,7 +11,7 @@
 
 ## Chạy bằng Android Studio
 
-1. Mở Android Studio → **File › Open** → chọn thư mục `ltdd/android` (không chọn thư mục `ltdd`).
+1. Mở Android Studio → **File › Open** → chọn thư mục `android` bên trong repo (không chọn thư mục gốc của repo).
 2. Đợi Gradle Sync xong (lần đầu cần Internet để tải thư viện). Android Studio tự tạo `local.properties` trỏ tới Android SDK.
 3. Chọn thiết bị chạy trên thanh công cụ:
    - **Máy ảo:** chọn `Pixel_8` (đã có sẵn) hoặc tạo mới ở **Tools › Device Manager › Create Virtual Device**. Máy ảo cần khá nhiều RAM; nếu máy yếu nên dùng điện thoại thật.

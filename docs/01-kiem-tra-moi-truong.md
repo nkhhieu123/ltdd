@@ -6,7 +6,7 @@ Ngày kiểm tra: 27/10/2026 · Máy: Windows 11
 
 | Mục | Kết quả |
 |---|---|
-| Repo dự án | `orca/projects/ltdd` (GitHub `nkhhieu123/ltdd`), trước đó chỉ có thư mục `docs/` – không có dự án Android nào, không lo ghi đè |
+| Repo dự án | `orca/projects/ltdd` (GitHub `nkhhieu123/subtrack`, trước đây tên `ltdd`), trước đó chỉ có thư mục `docs/` – không có dự án Android nào, không lo ghi đè |
 | Repo REA | `orca/projects/rea/rea` – bản clone của `morluto/rea` (MCP dịch ngược nhị phân, ứng dụng, quan sát website qua CDP) |
 | REA MCP | **Chưa kết nối** với AI agent: không có công cụ `rea` nào trong phiên làm việc. Cần chạy `npx rea-agents setup` rồi khởi động lại agent mới dùng được |
 | Thư mục đích | `orca/projects/ltdd/android/` |
